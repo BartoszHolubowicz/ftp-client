@@ -23,7 +23,8 @@ function onError(err) {
 }
 
 function compile(watch) {
-  const bundler = watchify(browserify({ entries: ['./src/testing_test.js']})
+  const bundler = watchify(browserify({ entries: ['./src/app.js']})
+    .external('vue')
     .transform(babelify, {
       presets: ["@babel/preset-env"],
       sourceMaps: true
@@ -33,13 +34,13 @@ function compile(watch) {
   function rebundle() {
     return pipeline(
       bundler.bundle().on('error', onError),
-      source('script.js'),
+      source('app.js'),
       buffer(),
-      rename('script.min.js'),
+      rename('app.min.js'),
       sourcemaps.init({ loadMaps: true }),
       uglify(),
       sourcemaps.write('./'),
-      gulp.dest('./build/')
+      gulp.dest('./dist/')
     );
   }
 
@@ -73,7 +74,7 @@ gulp.task('build-sass', () =>
       .on('error', sass.logError),
     sourcemaps.write('./')
       .on('error', onError),
-    gulp.dest('./build/css'),
+    gulp.dest('./dist/css'),
   ).on('end', () => console.log('-> CSS compiled'))
 );
 

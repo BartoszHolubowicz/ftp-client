@@ -43,6 +43,8 @@
     "watchify": "^3.11.1"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "ftp": "^0.3.10",
+    "vue": "^2.6.10"
   }
 }
