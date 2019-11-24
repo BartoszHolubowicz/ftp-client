@@ -1,1 +1,16 @@
-node_modules
+!node_modules/
+
+node_modules/*
+!node_modules/vueify/
+
+node_modules/vueify/*
+!node_modules/vueify/lib/
+
+node_modules/vueify/lib/*
+!node_modules/vueify/lib/compiler.js
+!node_modules/vueify/lib/compilers/
+
+node_modules/vueify/lib/compilers/*
+!node_modules/vueify/lib/compilers/babel.js
+
+dist/

@@ -3,6 +3,7 @@ const gulp = require('gulp');
 const browserify = require('browserify');
 const watchify = require('watchify');
 const babelify = require('babelify');
+const vueify = require('vueify');
 
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
@@ -15,6 +16,9 @@ const sourcemaps = require('gulp-sourcemaps');
 
 const pipeline = require('readable-stream').pipeline;
 
+const jsEntryPoint = './src/index.js';
+const jsBundledName = 'app.js';
+
 sass.compiler = require('node-sass');
 
 function onError(err) {
@@ -23,8 +27,8 @@ function onError(err) {
 }
 
 function compile(watch) {
-  const bundler = watchify(browserify({ entries: ['./src/app.js']})
-    .external('vue')
+  const bundler = watchify(browserify({ entries: [jsEntryPoint], paths: ['./src/'] })
+    .transform(vueify)
     .transform(babelify, {
       presets: ["@babel/preset-env"],
       sourceMaps: true
@@ -34,9 +38,9 @@ function compile(watch) {
   function rebundle() {
     return pipeline(
       bundler.bundle().on('error', onError),
-      source('app.js'),
+      source(jsEntryPoint.match(/(?!.*\/).*/)[0]),
       buffer(),
-      rename('app.min.js'),
+      rename(jsBundledName.replace(/(?!.*\.).*$/, 'min.' + jsBundledName.match(/(?!.*\.).*$/)[0])),
       sourcemaps.init({ loadMaps: true }),
       uglify(),
       sourcemaps.write('./'),
@@ -82,4 +86,4 @@ gulp.task('watch-sass', () =>
   gulp.watch('./src/**/*.scss', gulp.series('build-sass'))
 );
 
-gulp.task('start', gulp.parallel('watch-js', 'watch-sass'));
+gulp.task('start', gulp.series('build-sass', gulp.parallel('watch-js', 'watch-sass')));
