@@ -1,5 +1,5 @@
 <template>
-  <nav class="uk-navbar-container" uk-navbar>
+  <nav class="uk-navbar-container" uk-navbar="offset: 0">
 		<div class="uk-navbar-left">
 			<ul class="uk-navbar-nav">
 				<a class="uk-navbar-item uk-logo" href="#">BowicsFTP</a>
@@ -8,7 +8,7 @@
 					<div class="uk-navbar-dropdown">
 						<ul class="uk-nav uk-navbar-dropdown-nav">
 							<li class="uk-nav-header">Connection</li>
-							<li><a href="#">Connect</a></li>
+							<li><a href="#">Connect to FTP...</a></li>
 						</ul>
 					</div>
 				</li>
