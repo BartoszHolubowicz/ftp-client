@@ -1,4 +1,6 @@
 const argKeywords = ['move', 'change'];
+const evSeparator = '/';
+const evArgumentSeparator = ':';
 
 class DirExplorer {
   constructor(string, history = []) {
@@ -11,7 +13,7 @@ class DirExplorer {
   root() {
     // C:/a/b/c -> C:/
     // C:/ -> C:/
-    const rootRegex = /^.*?\\/;
+    const rootRegex = /^.*?[\\\/]/;
 
     let r = new DirExplorer(this.dir, [...this.history, ['root']]);
     r.dir = r.dir.match(rootRegex)[0];
@@ -58,7 +60,7 @@ class DirExplorer {
     return r;
   }
   historyToString() {
-    return this.history.map(ev => argKeywords.includes(ev[0]) ? `${ev[0]}:${ev[1]}` : ev[0]).join('.');
+    return this.history.map(ev => argKeywords.includes(ev[0]) ? `${ev[0]}${evArgumentSeparator}${ev[1]}` : ev[0]).join(evSeparator);
   }
   clone(emptyHistory = false) {
     return new DirExplorer(this.dir, emptyHistory ? [] : this.history);
@@ -85,13 +87,17 @@ class DirExplorer {
   }
 
   static stringHistoryToArray(strHistory) {
-    return strHistory.split('.').map(ev => ev.split(':'));
+    return strHistory.split(evSeparator).map(ev => ev.split(evArgumentSeparator));
   }
 
   static minifyHistory(history) {
-    // Removing everything before last root
-    const lastRootIdx = history.reduce((acc, ev, i) => String(ev) === 'root' ? i : acc, -1);
-    let newHistory = history.filter((ev, i) => i >= lastRootIdx);
+    // Removing everything before change
+    const lastChangeIdx = history.reduce((acc, ev, i) => String(ev) === 'change' ? i : acc, -1);
+    let newHistory = history.filter((ev, i) => i >= lastChangeIdx);
+
+    // Removing everything before last root that is not 'change'
+    const lastRootIdx = newHistory.reduce((acc, ev, i) => String(ev) === 'root' ? i : acc, -1);
+    newHistory = newHistory.filter((ev, i) => i >= lastRootIdx || ev[0] === 'change');
 
     // Removing moves and ups when up() happens after move()
     const helper = [['-'], ...newHistory, ['-']];

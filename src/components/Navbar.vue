@@ -8,7 +8,7 @@
 					<div class="uk-navbar-dropdown">
 						<ul class="uk-nav uk-navbar-dropdown-nav">
 							<li class="uk-nav-header">Connection</li>
-							<li><a href="#">Connect to FTP...</a></li>
+							<li><a href="#" uk-toggle="target: #modal-new-connection">Connect to FTP...</a></li>
 						</ul>
 					</div>
 				</li>

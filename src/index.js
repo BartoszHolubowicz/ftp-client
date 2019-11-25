@@ -1,14 +1,9 @@
 import Vue from 'vue';
-import Fragment from 'vue-fragment';
-import App from './App.vue';
+import App from './components/App.vue';
+import store from './store';
 
-Vue.use(Fragment.Plugin);
-
-var app = new Vue({
+new Vue({
   el: '#app',
-  render: function(createComponent) {
-    return createComponent(App);
-  }
-})
-
-export default app;
+  store,
+  render: h => h(App)
+});
