@@ -6,7 +6,8 @@ const path = require('path');
 const fs = require('fs-extra');
 const app = express();
 
-const apiRoute = require('./routes/api');
+const apiLocalRoute = require('./routes/apiLocal');
+const apiRemoteRoute = require('./routes/apiRemote');
 
 const port = process.env.port || 3000;
 
@@ -16,7 +17,8 @@ app.use(express.static('public'));
 app.use(express.static('dist'));
 
 app.use('/uikit', express.static(path.join(__dirname, 'node_modules/uikit/dist')));
-app.use('/api', apiRoute);
+app.use('/api/local', apiLocalRoute);
+app.use('/api/remote', apiRemoteRoute);
 
 app.get('/', (req, res) => {
   res.sendFile('index.html');

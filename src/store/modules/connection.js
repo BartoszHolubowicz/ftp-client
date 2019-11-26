@@ -12,11 +12,11 @@ const actions = {
   connect: ({ commit, dispatch, state }, { host, port, username, password }) => {
     console.log({ host, port, username, password });
     commit('setConnected', { status: 'loading' });
-    axios.post('/api', {
+    axios.post('/api/remote', {
       host, port, username, password
     }).then(res => {
       commit('setConnected', { status: String(res.data.connectionSuccessful) });
-      dispatch('files/loadFiles', { url: '/' }, { root: true });
+      dispatch('files/loadLocalFiles', { url: '/' }, { root: true });
     });
   }
 };

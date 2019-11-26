@@ -39,26 +39,6 @@ router.get(/^\/(.+)/, async (req, res) => {
     .on('end', () => res.json({currentDir: currentDir.dir, files}));
 });
 
-router.post('/', async (req, res) => {
-  const { host, port, username, password } = req.body;
 
-  let sftp = new Client();
-
-  sftp.connect({
-    host, port, username, password
-  }).then(() => {
-    console.log("yay");
-  }).then(() => {
-    res.json({
-      connectionSuccessful: true
-    });
-    return sftp.end();
-  }).catch(err => {
-    res.json({
-      connectionSuccessful: false
-    });
-    console.error(err);
-  });
-});
 
 module.exports = router;

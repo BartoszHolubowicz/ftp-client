@@ -12,7 +12,7 @@
       <div uk-spinner="ratio: 2"></div>
     </div>
     <FileManager v-else-if="isConnected"></FileManager>
-    <ConnectionModal></ConnectionModal>
+    <ConnectionModal></ConnectionModal> <!-- #modal-new-connection -->
   </div>
 </template>
 

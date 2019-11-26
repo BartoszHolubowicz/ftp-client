@@ -10,16 +10,16 @@ const setters = {};
 const getters = {};
 
 const actions = {
-  loadFiles: ({ commit }, { url }) => {
-    axios.get('/api' + url)
+  loadLocalFiles: ({ commit }, { url }) => {
+    axios.get('/api/local' + url)
     .then(res => {
-      commit('loadFiles', { localDir: url, files: res.data.files });
+      commit('loadLocalFiles', { localDir: url, files: res.data.files });
     });
   }
 };
 
 const mutations = {
-  loadFiles: (state, { localDir, files }) => {
+  loadLocalFiles: (state, { localDir, files }) => {
     state.localDir = localDir;
     state.files = files;
   },
